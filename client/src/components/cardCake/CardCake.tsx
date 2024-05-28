@@ -1,10 +1,16 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions, useTheme, useMediaQuery } from '@mui/material';
+import {
+  Grid,
+  Button,
+  useTheme,
+  useMediaQuery,
+ styled
+} from '@mui/material';
+
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
 
 import { CakeType } from '../../types/cakeType';
 import { useAppSelector } from '../../redux/hooks';
@@ -13,52 +19,86 @@ type CakePropType = {
   cake: CakeType;
 };
 
+const StyledImageList = styled(ImageList)(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'block', // Hide ImageList in mobile view
+  },
+}));
+
 //props from .... pages/Home.tsx
 const CardCake = ({ cake }: CakePropType) => {
   const navigate = useNavigate();
   const theme = useTheme();
   const mdDown = useMediaQuery(theme.breakpoints.down('md'));
   const isLoggedStatus = useAppSelector((state) => state.auth.authInfo);
+  
   return (
-    <Card sx={{ minWidth: 280, margin: '0 auto', padding: '0.1em' }}>
-      <CardActionArea>
-        <CardMedia
-          component='img'
-          height='250'
-          image={cake.selectedFile}
-          alt={cake.name}
-          sx={{ padding: mdDown ? "0em":"1em 1em 0 1em" }}
-        />
-        <CardContent>
-          <Typography gutterBottom variant='h4' component='div'>
-            {cake.name}
-          </Typography>
-          <Typography variant='body2' color='text.secondary'>
-            {cake.description}
-          </Typography>
-          <Typography variant='h6' color='text.secondary'>
-            Price: {cake.price}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button
-          variant='contained'
-          size='small'
-          color='warning'
-          onClick={() => {
-            if (isLoggedStatus.isLoggedIn) {
-              navigate(`/ordercake/${cake._id}/${isLoggedStatus._id}`);
-            } else {
-              navigate('/auth');
-            }
+    <Grid
+      item
+      container
+      justifyContent={mdDown ? 'center' : 'flex-start'} // Center in mobile view
+      alignItems='center'
+      xs={12}
+      sm={6}
+      md={4}
+    >
+      <StyledImageList
+        sx={{
+          borderRadius: '10px',
+          width: mdDown ? '100%' : 'auto', // Full width in mobile view
+          margin: mdDown ? '0 auto' : 'inherit', // Centered margin in mobile view
+        }}
+      >
+        <ImageListItem
+          key={cake._id}
+          sx={{
+            position: 'relative',
+            paddingTop: '75%', // Maintain aspect ratio
+            width: mdDown ? '100%' : '350px', // Adjust width for larger size on normal screens
+            overflow: 'hidden',
+            marginBottom: '20px', // Spacing between items
           }}
         >
-          Order
-        </Button>
-      </CardActions>
-    </Card>
+          <img
+            srcSet={cake.selectedFile}
+            src={cake.selectedFile}
+            alt={cake.name}
+            loading='lazy'
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
+       />
+          <ImageListItemBar
+            title={cake.name}
+            subtitle={cake.description}
+            actionIcon={
+           <Button
+             variant='contained'
+             size='small'
+             color='warning'
+             onClick={() => {
+               if (isLoggedStatus.isLoggedIn) {
+                 navigate(`/ordercake/${cake._id}/${isLoggedStatus._id}`);
+               } else {
+                 navigate('/auth');
+               }
+             }}
+             sx={{marginRight:'1em'}}
+           >
+             Order
+           </Button>
+            }
+          />
+        </ImageListItem>
+      </StyledImageList>
+    </Grid>
   );
 };
 
 export default CardCake;
+

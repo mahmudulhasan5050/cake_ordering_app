@@ -31,7 +31,7 @@ const DatePickers = ({
           setDesiredDate(newValue);
           setOrder({ ...order, deliveryDate: newValue?.format() });
         }}
-        renderInput={(params) => <TextField {...params} />}
+        renderInput={(params) => <TextField sx={{width:'100%'}} {...params} />}
       />
     </LocalizationProvider>
   );

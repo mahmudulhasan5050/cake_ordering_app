@@ -46,7 +46,7 @@ const TableHome = () => {
   }, [dispatch]);
 
   return (
-    <Box sx={{ margin: matchesMd ? '0em' : '4em' }}>
+    <Box>
       <TableContainer component={Paper}>
         <Table sx={{ tableLayout: 'fixed' }} aria-label='simple table'>
           <TableHead>
@@ -56,6 +56,7 @@ const TableHome = () => {
                   <TableCell
                     key={item}
                     align={headNormalView.length - 1 === i ? 'right' : 'left'}
+                    sx={{ color:'white', fontSize:'1.2em' }}
                   >
                     {item}
                   </TableCell>

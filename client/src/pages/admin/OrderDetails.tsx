@@ -1,10 +1,11 @@
+import { Container } from '@mui/material';
 import OrderTable from '../../components/tables/orderTable/OrderTable';
 
 const OrderDetails = () => {
   return (
-    <div>
+    <Container style={{ padding: '150px 0px', width:'100%' }}>
       <OrderTable />
-    </div>
+    </Container>
   );
 };
 

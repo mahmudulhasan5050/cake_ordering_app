@@ -33,16 +33,17 @@ const TableHome = ({setCakeId}:SetCakeIdStateType) => {
   const allCakes = useAppSelector((state) => state.cake);
 
   return (
-    <Box sx={{ margin: matchesMd ? '0em' : '4em' }}>
+    <Box sx={{ margin: matchesMd ? '0em' : '0em' }}>
       <TableContainer component={Paper}>
         <Table sx={{ tableLayout: 'fixed' }} aria-label='simple table'>
           <TableHead>
-            <TableRow sx={{ backgroundColor: 'gray' }}>
+            <TableRow sx={{ backgroundColor: 'gray', color:'white' }}>
               {headElements.map((item, i) => {
                 return (
                   <TableCell
                     key={item}
                     align={headElements.length - 1 === i ? 'right' : 'left'}
+                    sx={{ color:'white', fontSize:'1.2em' }}
                   >
                     {item}
                   </TableCell>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Box, Typography, TextField } from '@mui/material';
-import { useAppSelector, useAppDispatch } from '../redux/hooks';
+import { Button, Box, Typography, TextField, Container } from '@mui/material';
+import { useAppDispatch } from '../redux/hooks';
 
 import { SignUpType } from '../types/authType';
 import { signIn, signUp } from '../features/auth/authAsync';
@@ -46,7 +46,7 @@ const SignUpInForm = () => {
   };
 
   return (
-    <div>
+    <Container style={{ padding: '150px 0px', width:'100%' }}>
       <form>
         <Box
           display='flex'
@@ -135,7 +135,7 @@ const SignUpInForm = () => {
           </Button>
         </Box>
       </form>
-    </div>
+    </Container>
   );
 };
 

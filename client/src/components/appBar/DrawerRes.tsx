@@ -13,8 +13,12 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import { logout } from '../../features/auth/authSlice';
 
+interface LandingPageButtonProps {
+  landingPageButton: boolean
+}
+
 //.../Header.tsx
-const DrawerRes = () => {
+const DrawerRes = ({landingPageButton}:LandingPageButtonProps) => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const isLoggedStatus = useAppSelector((state) => state.auth.authInfo);
 
@@ -84,7 +88,7 @@ const DrawerRes = () => {
         </List>
       </Drawer>
       <IconButton
-        sx={{ color: 'white', marginLeft: 'auto' }}
+        sx={{ color: landingPageButton ? 'black' : 'white', marginLeft: 'auto' }}
         onClick={() => setOpenDrawer(!openDrawer)}
       >
         <MenuIcon />

@@ -1,12 +1,10 @@
-import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function CircularColor() {
   return (
-    <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
-      <CircularProgress color="secondary" />
-      <CircularProgress color="success" />
-      <CircularProgress color="inherit" />
-    </Stack>
+    <Box sx={{ marginTop: '50px'}}>
+      <CircularProgress color='secondary' size={70} />
+    </Box>
   );
 }

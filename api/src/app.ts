@@ -15,6 +15,8 @@ import userRouter from './routers/users';
 import orderRouter from './routers/orders';
 import authRouter from './routers/auth';
 
+//import serverless from 'serverless-http'; // This is used to deploy api to Lamda AWS
+
 mongoose
   .connect(MongoUri)
   .then(() => {
@@ -53,3 +55,6 @@ const PORT: Number = Number(process.env.PORT);
 app.listen(Port, () => {
   console.log(`server is on port ${Port}`);
 });
+
+
+//export const handler = serverless(app);

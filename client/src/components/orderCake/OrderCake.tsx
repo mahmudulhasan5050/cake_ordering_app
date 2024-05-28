@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../redux/hooks';
 import { styled } from '@mui/material/styles';
-import { Grid, TextField, Button } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
-import ButtonBase from '@mui/material/ButtonBase';
+import {
+  Grid,
+  TextField,
+  Button,
+  useMediaQuery,
+  useTheme,
+  Typography,
+} from '@mui/material';
+
 import dayjs, { Dayjs } from 'dayjs';
 
 import { OrderSubmitType } from '../../types/orderType';
@@ -23,6 +28,8 @@ const OrderCake = () => {
   const { cakeId, userId } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const theme = useTheme();
+  const mdDown = useMediaQuery(theme.breakpoints.down('md'));
   const selectedCake = useAppSelector((state) =>
     state.cake.cakes.filter((item) => item._id === cakeId)
   );
@@ -47,7 +54,7 @@ const OrderCake = () => {
       totalPrice: total,
       deliveryDate: desiredDate?.format(),
     });
-  }, []);
+  }, [selectedCake, amount, desiredDate, userId, total]);
 
   const orderSubmit = () => {
     dispatch(addOrder(order));
@@ -67,58 +74,67 @@ const OrderCake = () => {
   };
 
   return (
-    <Paper
-      sx={{
-        p: 2,
-        margin: 'auto',
-        maxWidth: 700,
-        flexGrow: 1,
-        backgroundColor: (theme) =>
-          theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-      }}
+    <Grid
+      container
+      direction={mdDown ? 'column' : 'row'}
+      justifyContent='center'
+      alignItems='center'
+      spacing={4}
+      sx={{ width: '80%', margin: '120px auto' }}
     >
-      <Grid container spacing={2}>
-        <Grid item>
-          <ButtonBase sx={{ width: 128, height: 128 }}>
-            <Img alt='complex' src={selectedCake[0].selectedFile} />
-          </ButtonBase>
+      <Grid item xs={4} alignItems='center'>
+        <Img
+          alt='cake image'
+          src={selectedCake[0].selectedFile}
+          sx={{ maxHeight: '300px' }}
+        />
+      </Grid>
+      <Grid item container direction='row' xs={8} spacing={2}>
+        {/* Here is Name and Description *****************/}
+        <Grid
+          item
+          xs={12}
+          direction='column'
+          justifyContent='center'
+          alignItems='center'
+          sx={{ marginBottom: '30px' }}
+        >
+          <Typography gutterBottom variant='h4' component='div' align='center'>
+            {selectedCake[0].name}
+          </Typography>
+          <Typography variant='h5' gutterBottom align='center'>
+            {selectedCake[0].description}
+          </Typography>
         </Grid>
-        <Grid item xs={12} sm container>
-          <Grid item xs container direction='column' spacing={2}>
-            <Grid item xs>
-              <Typography gutterBottom variant='subtitle1' component='div'>
-                {selectedCake[0].name}
-              </Typography>
-              <Typography variant='body2' gutterBottom>
-                {selectedCake[0].description}
-              </Typography>
-              <TextField
-                label='Amount'
-                sx={{ m: 1, width: '20ch', marginLeft: '0em' }}
-                variant='filled'
-                type='number'
-                value={amount}
-                onChange={(e: any) => {
-                  setAmount(e.target.value);
-                  setTotal(selectedCake[0].price * e.target.value);
-                  setOrder({
-                    ...order,
-                    amount: e.target.value,
-                    totalPrice: selectedCake[0].price * e.target.value,
-                  });
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button variant='contained' color='success' onClick={orderSubmit}>
-                Submit Order
-              </Button>
-            </Grid>
+        {/* Here is amount *****************/}
+        <Grid
+          item
+          container
+          xs={12}
+          direction='row'
+          spacing={2}
+          justifyContent='center'
+          alignItems='center'
+        >
+          <Grid item xs={4}>
+            <TextField
+              label='Amount'
+              sx={{ m: 1, width: '100%', marginLeft: '0em' }}
+              variant='filled'
+              type='number'
+              value={amount}
+              onChange={(e: any) => {
+                setAmount(e.target.value);
+                setTotal(selectedCake[0].price * e.target.value);
+                setOrder({
+                  ...order,
+                  amount: e.target.value,
+                  totalPrice: selectedCake[0].price * e.target.value,
+                });
+              }}
+            />
           </Grid>
-          <Grid item>
-            <Typography variant='subtitle1' component='div'>
-              € {total}
-            </Typography>
+          <Grid item xs={4}>
             <CalendarDisplay
               desiredDate={desiredDate}
               setDesiredDate={setDesiredDate}
@@ -126,9 +142,25 @@ const OrderCake = () => {
               setOrder={setOrder}
             />
           </Grid>
+          <Grid item xs={4}>
+            <Typography variant='h4'>€ {total}</Typography>
+          </Grid>
+        </Grid>
+        {/* Here is Calendar **********************/}
+        <Grid
+          item
+          container
+          xs={12}
+          direction='column'
+          justifyContent='center'
+          alignItems='center'
+        >
+          <Button variant='contained' color='success' onClick={orderSubmit}>
+            Submit Order
+          </Button>
         </Grid>
       </Grid>
-    </Paper>
+    </Grid>
   );
 };
 export default OrderCake;

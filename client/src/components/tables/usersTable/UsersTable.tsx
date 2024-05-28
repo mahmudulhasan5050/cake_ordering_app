@@ -37,7 +37,7 @@ const UsersTable = ({ setUserId }: SetUserIdStateType) => {
   }, [dispatch]);
 
   return (
-    <Box sx={{ margin: matchesMd ? '0em' : '4em' }}>
+    <Box>
       <TableContainer component={Paper}>
         <Table sx={{ tableLayout: 'fixed' }} aria-label='simple table'>
           <TableHead>
@@ -47,6 +47,7 @@ const UsersTable = ({ setUserId }: SetUserIdStateType) => {
                   <TableCell
                     key={item}
                     align={headElements.length - 1 === i ? 'right' : 'left'}
+                    sx={{ color:'white', fontSize:'1.2em' }}
                   >
                     {item}
                   </TableCell>
