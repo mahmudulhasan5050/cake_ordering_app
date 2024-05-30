@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 import createHttpError from 'http-errors';
 import cors from 'cors';
 
-import { MongoUri, Port } from './utils/secrets';
+import { MongoUri, Port } from './utils/secrets'; // add Port to run on local machine
 import cakeRouter from './routers/cakes';
 import userRouter from './routers/users';
 import orderRouter from './routers/orders';
@@ -55,6 +55,5 @@ const PORT: Number = Number(process.env.PORT);
 app.listen(Port, () => {
   console.log(`server is on port ${Port}`);
 });
-
 
 //export const handler = serverless(app);
